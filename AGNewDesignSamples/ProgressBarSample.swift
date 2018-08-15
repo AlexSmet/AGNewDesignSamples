@@ -10,8 +10,8 @@ import UIKit
 
 class ProgressBarSample: UIViewController {
 
-    @IBOutlet weak var progressBar1: SHGradientProgressBar!
-    @IBOutlet weak var progressBar2: SHGradientProgressBar!
+    @IBOutlet weak var progressBar1: GradientProgressBar!
+    @IBOutlet weak var progressBar2: GradientProgressBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +30,8 @@ class ProgressBarSample: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        progressBar1.setProgress(0.5, withDuration: 0.5)
-        progressBar2.setProgress(0.8, withDuration: 0.5)
+        progressBar1.setProgress(0.5, withDuration: 0.0)
+        progressBar2.setProgress(0.8, withDuration: 0.0)
     }
 
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SHGradientProgressBar: UIView, CAAnimationDelegate {
+class GradientProgressBar: UIView, CAAnimationDelegate {
 
     var barColors: [UIColor] {
         get { return gradientLayer.barColors.map { UIColor(cgColor: $0) } }

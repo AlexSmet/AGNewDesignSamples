@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="84R-jV-0MV">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,11 +11,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yG0-g3-MD7">
-                                <rect key="frame" x="20" y="103" width="280" height="30"/>
+                                <rect key="frame" x="20" y="103" width="560" height="30"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="cOW-bd-HfQ"/>
@@ -30,7 +26,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kg-tB-VYe">
-                                <rect key="frame" x="20" y="150" width="280" height="30"/>
+                                <rect key="frame" x="20" y="150" width="560" height="30"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="ZhY-SP-rgl"/>
@@ -42,7 +38,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgL-iD-eei">
-                                <rect key="frame" x="20" y="197" width="280" height="30"/>
+                                <rect key="frame" x="20" y="197" width="560" height="30"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="30" id="ILY-XR-V4j"/>
@@ -98,11 +94,11 @@
             <objects>
                 <viewController title="Анимация цифр" id="m9Z-Vy-P1L" customClass="NumbersScrollSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MCI-Tw-Pjs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdT-q8-ewv" customClass="SHNumbersScrollAnimatedView" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="19.5" y="114" width="281" height="82"/>
+                                <rect key="frame" x="159.5" y="114" width="281" height="82"/>
                                 <color key="backgroundColor" red="1" green="0.1843137255" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="281" id="43S-Fk-yCy"/>
@@ -131,18 +127,18 @@
             <objects>
                 <viewController id="Nsx-V0-Yc0" customClass="ProgressBarSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YVw-of-jjr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJO-pk-Uk9" customClass="SHGradientProgressBar" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="20" y="114" width="280" height="20"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJO-pk-Uk9" customClass="GradientProgressBar" customModule="AGNewDesignSamples" customModuleProvider="target">
+                                <rect key="frame" x="20" y="114" width="560" height="20"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="siw-sd-eVs"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n2N-1D-YpL" customClass="SHGradientProgressBar" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="20" y="151" width="280" height="20"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n2N-1D-YpL" customClass="GradientProgressBar" customModule="AGNewDesignSamples" customModuleProvider="target">
+                                <rect key="frame" x="20" y="151" width="560" height="20"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="llj-dm-W98"/>
@@ -176,18 +172,18 @@
             <objects>
                 <viewController id="LOB-FJ-qlW" customClass="TrapezeImageSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SIW-sa-CiM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Ep4-sA-ALa" customClass="TrapezeImageView" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="35.5" y="114" width="250" height="140"/>
+                                <rect key="frame" x="175" y="114" width="250" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="Ark-oL-QVX"/>
                                     <constraint firstAttribute="height" constant="140" id="zqr-cn-mdn"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Orr-7U-Er2" customClass="ImageView">
-                                <rect key="frame" x="35" y="278" width="250" height="140"/>
+                                <rect key="frame" x="175" y="278" width="250" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="140" id="LQL-TT-vw6"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="140" id="S86-ZV-54e"/>
