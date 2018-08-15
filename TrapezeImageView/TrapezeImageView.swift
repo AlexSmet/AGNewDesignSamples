@@ -7,14 +7,16 @@
 
 import UIKit
 
-@IBDesignable class TrapezeImageView: UIImageView {
-    @IBInspectable public var leftSideRatio: CGFloat = 0.5 {
+class TrapezeImageView: UIImageView {
+    
+    public var leftSideRatio: CGFloat = 0.5 {
         didSet {
             applyMask()
             setNeedsDisplay()
         }
     }
-    @IBInspectable public var rightSideRatio: CGFloat = 1.0 {
+
+    public var rightSideRatio: CGFloat = 1.0 {
         didSet {
             applyMask()
             setNeedsDisplay()
