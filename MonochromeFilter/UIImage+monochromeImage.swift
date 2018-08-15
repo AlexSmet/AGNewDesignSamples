@@ -16,4 +16,21 @@ extension UIImage {
 
         return resultImage == nil ? nil : UIImage(ciImage: resultImage!)
     }
+
+    func monochromeImage(color: UIColor, intesity: Float = 1.0, result: @escaping ((UIImage?)->Void) ) {
+        guard let filter = CIFilter(name: "CIColorMonochrome" ) else {
+            result(nil)
+            return
+        }
+        filter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+        filter.setValue(CIColor(color: color), forKey: kCIInputColorKey)
+        filter.setValue(NSNumber(value: intesity), forKey: kCIInputIntensityKey)
+
+        DispatchQueue.global(qos: .utility).async {
+            let resultImage = filter.outputImage
+            DispatchQueue.main.async {
+                result(resultImage == nil ? nil : UIImage(ciImage: resultImage!))
+            }
+        }
+    }
 }
