@@ -36,15 +36,22 @@ class GradientProgressBar: UIView, CAAnimationDelegate {
         }
     }
 
-    func setProgress(_ progress: CGFloat, withDuration: Double, complition: ((Bool) -> Void)? = nil) {
-        onAnimationComplition = complition
-        let animation = CABasicAnimation(keyPath: "progress")
-        animation.fromValue = CGFloat(0.0)
-        animation.toValue = progress
-        animation.duration = withDuration
-        animation.delegate = self
-        layer.add(animation, forKey: "progress")
-        gradientLayer.progress = progress
+    func setProgress(_ progress: CGFloat, withDuration animationDuration: Double, complition: ((Bool) -> Void)? = nil) {
+        if animationDuration > 0 {
+            onAnimationComplition = complition
+            let animation = CABasicAnimation(keyPath: "progress")
+            animation.fromValue = CGFloat(0.0)
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+            animation.toValue = progress
+            animation.duration = animationDuration
+            animation.delegate = self
+            layer.add(animation, forKey: "progress")
+            gradientLayer.progress = progress
+        } else {
+            gradientLayer.progress = progress
+            complition?(true)
+        }
+
     }
 
     override class var layerClass: AnyClass {
