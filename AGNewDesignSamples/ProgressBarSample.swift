@@ -30,8 +30,8 @@ class ProgressBarSample: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        progressBar1.setProgress(0.5, withDuration: 0.0)
-        progressBar2.setProgress(0.8, withDuration: 0.0)
+        progressBar1.setProgress(0.5, withDuration: 1)
+        progressBar2.setProgress(0.8, withDuration: 1)
     }
 
 }
