@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5547678521271C3E00EE8385 /* AGAnimatedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5547678421271C3E00EE8385 /* AGAnimatedBackgroundView.swift */; };
+		5547678721271C6B00EE8385 /* AGAnimatedBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5547678621271C6B00EE8385 /* AGAnimatedBackgroundLayer.swift */; };
+		5547678921271DB100EE8385 /* AnimatedBackgroundSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5547678821271DB100EE8385 /* AnimatedBackgroundSample.swift */; };
+		55805487212AACAA00617C12 /* UIView+Trapeze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55805486212AACAA00617C12 /* UIView+Trapeze.swift */; };
 		55AE79142123F56300294B29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79132123F56300294B29 /* AppDelegate.swift */; };
 		55AE79162123F56300294B29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79152123F56300294B29 /* ViewController.swift */; };
 		55AE79192123F56300294B29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55AE79172123F56300294B29 /* Main.storyboard */; };
@@ -25,6 +29,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5547678421271C3E00EE8385 /* AGAnimatedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGAnimatedBackgroundView.swift; sourceTree = "<group>"; };
+		5547678621271C6B00EE8385 /* AGAnimatedBackgroundLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGAnimatedBackgroundLayer.swift; sourceTree = "<group>"; };
+		5547678821271DB100EE8385 /* AnimatedBackgroundSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBackgroundSample.swift; sourceTree = "<group>"; };
+		55805486212AACAA00617C12 /* UIView+Trapeze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Trapeze.swift"; sourceTree = "<group>"; };
 		55AE79102123F56300294B29 /* AGNewDesignSamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AGNewDesignSamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55AE79132123F56300294B29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55AE79152123F56300294B29 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,9 +63,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5547678321271C0000EE8385 /* AnimatedBackgroundView */ = {
+			isa = PBXGroup;
+			children = (
+				5547678421271C3E00EE8385 /* AGAnimatedBackgroundView.swift */,
+				5547678621271C6B00EE8385 /* AGAnimatedBackgroundLayer.swift */,
+			);
+			path = AnimatedBackgroundView;
+			sourceTree = "<group>";
+		};
 		55AE79072123F56300294B29 = {
 			isa = PBXGroup;
 			children = (
+				5547678321271C0000EE8385 /* AnimatedBackgroundView */,
 				55AE79252123F73A00294B29 /* SHNumbersScrollAnimatedView */,
 				55AE79322123F8D900294B29 /* GradientedProgressBar */,
 				55AE79352123F91300294B29 /* TrapezeImageView */,
@@ -83,6 +101,7 @@
 				55AE792E2123F7E200294B29 /* NumbersScrollSample.swift */,
 				55AE793A2123FAD800294B29 /* ProgressBarSample.swift */,
 				55AE79392123FAD800294B29 /* TrapezeImageSample.swift */,
+				5547678821271DB100EE8385 /* AnimatedBackgroundSample.swift */,
 				55AE79172123F56300294B29 /* Main.storyboard */,
 				55AE791A2123F56500294B29 /* Assets.xcassets */,
 				55AE791C2123F56500294B29 /* LaunchScreen.storyboard */,
@@ -114,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				55AE79332123F90F00294B29 /* TrapezeImageView.swift */,
+				55805486212AACAA00617C12 /* UIView+Trapeze.swift */,
 			);
 			path = TrapezeImageView;
 			sourceTree = "<group>";
@@ -205,10 +225,14 @@
 				55AE793B2123FAD800294B29 /* TrapezeImageSample.swift in Sources */,
 				55AE792F2123F7E200294B29 /* NumbersScrollSample.swift in Sources */,
 				55AE792A2123F73A00294B29 /* String+Extension.swift in Sources */,
+				5547678721271C6B00EE8385 /* AGAnimatedBackgroundLayer.swift in Sources */,
 				55AE792C2123F73A00294B29 /* ScrollableColumn.swift in Sources */,
 				55AE79142123F56300294B29 /* AppDelegate.swift in Sources */,
 				55AE793C2123FAD800294B29 /* ProgressBarSample.swift in Sources */,
 				55AE792D2123F73A00294B29 /* VerticallyCenteredTextLayer.swift in Sources */,
+				5547678521271C3E00EE8385 /* AGAnimatedBackgroundView.swift in Sources */,
+				55805487212AACAA00617C12 /* UIView+Trapeze.swift in Sources */,
+				5547678921271DB100EE8385 /* AnimatedBackgroundSample.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

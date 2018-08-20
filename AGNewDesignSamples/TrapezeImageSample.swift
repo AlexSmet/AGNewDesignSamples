@@ -11,6 +11,7 @@ import UIKit
 class TrapezeImageSample: UIViewController {
 
     @IBOutlet weak var trapezeImageView: TrapezeImageView!
+    @IBOutlet weak var sampleImage: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,5 +22,7 @@ class TrapezeImageSample: UIViewController {
 
         trapezeImageView.leftSideRatio = 0.3
         trapezeImageView.rightSideRatio = 1
+
+        sampleImage.appplyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
     }
 }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="84R-jV-0MV">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,11 +15,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yG0-g3-MD7">
-                                <rect key="frame" x="20" y="103" width="560" height="30"/>
+                                <rect key="frame" x="20" y="103" width="280" height="30"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="cOW-bd-HfQ"/>
@@ -26,7 +30,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kg-tB-VYe">
-                                <rect key="frame" x="20" y="150" width="560" height="30"/>
+                                <rect key="frame" x="20" y="150" width="280" height="30"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="ZhY-SP-rgl"/>
@@ -38,7 +42,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgL-iD-eei">
-                                <rect key="frame" x="20" y="197" width="560" height="30"/>
+                                <rect key="frame" x="20" y="197" width="280" height="30"/>
                                 <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="30" id="ILY-XR-V4j"/>
@@ -50,18 +54,34 @@
                                     <segue destination="LOB-FJ-qlW" kind="show" id="DnZ-x5-Xdj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bv4-x8-ZJU">
+                                <rect key="frame" x="20" y="247" width="280" height="30"/>
+                                <color key="backgroundColor" red="0.69803921570000005" green="0.85098039219999999" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="30" id="Tgs-bG-ujz"/>
+                                    <constraint firstAttribute="height" constant="30" id="WEv-3g-3bz"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="d21-Nh-HL8"/>
+                                </constraints>
+                                <state key="normal" title="Анимированный фон"/>
+                                <connections>
+                                    <segue destination="FwC-Um-wwc" kind="show" id="RP0-97-pyK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4kg-tB-VYe" secondAttribute="trailing" constant="20" id="6fI-ah-nDC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xgL-iD-eei" secondAttribute="trailing" constant="20" id="AD6-Wr-obW"/>
                             <constraint firstItem="yG0-g3-MD7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ga5-rc-IKL"/>
+                            <constraint firstItem="Bv4-x8-ZJU" firstAttribute="top" secondItem="xgL-iD-eei" secondAttribute="bottom" constant="20" id="JLn-nf-hSd"/>
                             <constraint firstItem="4kg-tB-VYe" firstAttribute="top" secondItem="yG0-g3-MD7" secondAttribute="bottom" constant="17" id="M30-qw-ffT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bv4-x8-ZJU" secondAttribute="trailing" constant="20" id="OCZ-bi-nOg"/>
                             <constraint firstItem="xgL-iD-eei" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="RQA-ZP-uEn"/>
                             <constraint firstItem="xgL-iD-eei" firstAttribute="top" secondItem="4kg-tB-VYe" secondAttribute="bottom" constant="17" id="RvI-K0-P0H"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yG0-g3-MD7" secondAttribute="trailing" constant="20" id="eoY-yf-J96"/>
                             <constraint firstItem="yG0-g3-MD7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="39" id="gcL-TX-C08"/>
                             <constraint firstItem="4kg-tB-VYe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="pbC-h5-Msr"/>
+                            <constraint firstItem="Bv4-x8-ZJU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xRW-cV-4ae"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -94,11 +114,11 @@
             <objects>
                 <viewController title="Анимация цифр" id="m9Z-Vy-P1L" customClass="NumbersScrollSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MCI-Tw-Pjs">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdT-q8-ewv" customClass="NumbersScrollAnimatedView" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="159.5" y="114" width="281" height="82"/>
+                                <rect key="frame" x="19.5" y="114" width="281" height="82"/>
                                 <color key="backgroundColor" red="1" green="0.1843137255" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="281" id="43S-Fk-yCy"/>
@@ -127,18 +147,18 @@
             <objects>
                 <viewController id="Nsx-V0-Yc0" customClass="ProgressBarSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YVw-of-jjr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJO-pk-Uk9" customClass="GradientProgressBar" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="20" y="114" width="560" height="20"/>
+                                <rect key="frame" x="20" y="114" width="280" height="20"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="siw-sd-eVs"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n2N-1D-YpL" customClass="GradientProgressBar" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="20" y="151" width="560" height="20"/>
+                                <rect key="frame" x="20" y="151" width="280" height="20"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="llj-dm-W98"/>
@@ -172,18 +192,18 @@
             <objects>
                 <viewController id="LOB-FJ-qlW" customClass="TrapezeImageSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SIW-sa-CiM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Ep4-sA-ALa" customClass="TrapezeImageView" customModule="AGNewDesignSamples" customModuleProvider="target">
-                                <rect key="frame" x="175" y="114" width="250" height="140"/>
+                                <rect key="frame" x="35" y="114" width="250" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="Ark-oL-QVX"/>
                                     <constraint firstAttribute="height" constant="140" id="zqr-cn-mdn"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Orr-7U-Er2" customClass="ImageView">
-                                <rect key="frame" x="175" y="278" width="250" height="140"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Orr-7U-Er2">
+                                <rect key="frame" x="35" y="278" width="250" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="140" id="LQL-TT-vw6"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="140" id="S86-ZV-54e"/>
@@ -203,6 +223,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Трапеция и монохромный фильтр" id="pQ6-Sp-nV5"/>
                     <connections>
+                        <outlet property="sampleImage" destination="Orr-7U-Er2" id="ybW-nV-hs4"/>
                         <outlet property="trapezeImageView" destination="Ep4-sA-ALa" id="eI8-aZ-gij"/>
                     </connections>
                 </viewController>
@@ -210,8 +231,53 @@
             </objects>
             <point key="canvasLocation" x="2235" y="1334"/>
         </scene>
+        <!--Анимированный фон-->
+        <scene sceneID="8Yq-B0-phy">
+            <objects>
+                <viewController id="FwC-Um-wwc" customClass="AnimatedBackgroundSample" customModule="AGNewDesignSamples" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kpQ-6J-wEq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEr-HP-ZaU" customClass="AGAnimatedBackgroundView" customModule="AGNewDesignSamples" customModuleProvider="target">
+                                <rect key="frame" x="30" y="114" width="260" height="140"/>
+                                <color key="backgroundColor" red="0.92941176470588238" green="0.30196078431372547" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="GiI-uG-QA9"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dsm-Rq-aXx" customClass="AGAnimatedBackgroundView" customModule="AGNewDesignSamples" customModuleProvider="target">
+                                <rect key="frame" x="30" y="277" width="260" height="140"/>
+                                <color key="backgroundColor" red="0.054901960780000002" green="0.69019607839999997" blue="0.62745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="140" id="R2v-NP-0me"/>
+                                    <constraint firstAttribute="height" constant="140" id="l3T-Zo-Y5x"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="0fg-PE-uhX" firstAttribute="trailing" secondItem="QEr-HP-ZaU" secondAttribute="trailing" constant="30" id="TVR-R0-7xJ"/>
+                            <constraint firstItem="dsm-Rq-aXx" firstAttribute="leading" secondItem="0fg-PE-uhX" secondAttribute="leading" constant="30" id="Ulc-Vq-Cde"/>
+                            <constraint firstItem="0fg-PE-uhX" firstAttribute="trailing" secondItem="dsm-Rq-aXx" secondAttribute="trailing" constant="30" id="f7J-te-KCN"/>
+                            <constraint firstItem="QEr-HP-ZaU" firstAttribute="leading" secondItem="0fg-PE-uhX" secondAttribute="leading" constant="30" id="hzK-P1-u12"/>
+                            <constraint firstItem="dsm-Rq-aXx" firstAttribute="top" secondItem="QEr-HP-ZaU" secondAttribute="bottom" constant="23" id="tTu-Na-9Cd"/>
+                            <constraint firstItem="QEr-HP-ZaU" firstAttribute="top" secondItem="0fg-PE-uhX" secondAttribute="top" constant="50" id="zTF-3n-yzX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0fg-PE-uhX"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Анимированный фон" id="oiR-LW-YMc"/>
+                    <connections>
+                        <outlet property="animatedBackgroundGreen" destination="dsm-Rq-aXx" id="4PP-tQ-Guc"/>
+                        <outlet property="animatedBackgroundPink" destination="QEr-HP-ZaU" id="eKo-RC-t5C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XCG-cu-NzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2865" y="1333.0985915492959"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="sampleImage" width="2016" height="1512"/>
+        <image name="sampleImage" width="1000" height="750"/>
     </resources>
 </document>
