@@ -7,6 +7,23 @@
 
 import UIKit
 
+class AGSymbolPath {
+    static func getPath(withScale scale: CGFloat)-> UIBezierPath {
+        let path = UIBezierPath()
+
+        path.move(to: CGPoint(x: (4+31)*scale, y: 334*scale))
+        path.addLine(to: CGPoint(x: (74+31)*scale, y: 317*scale))
+        path.addLine(to: CGPoint(x: (139+31)*scale, y: 71*scale))
+        path.addLine(to: CGPoint(x: (206+31)*scale, y: 317*scale))
+        path.addLine(to: CGPoint(x: (274+31)*scale, y: 334*scale))
+        path.addLine(to: CGPoint(x: (186+31)*scale, y: 6*scale))
+        path.addLine(to: CGPoint(x: (92+31)*scale, y: 6*scale))
+        path.addLine(to: CGPoint(x: (4+31)*scale, y: 334*scale))
+
+        return path
+    }
+}
+
 class AGSymbolLayer: CAShapeLayer {
     var symbolColor: UIColor
 
@@ -58,15 +75,7 @@ class AGSymbolLayer: CAShapeLayer {
     func getLetterPath()-> UIBezierPath {
         let scale: CGFloat = min(frame.width/340, frame.height/340)
 
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: (4+31)*scale, y: 334*scale))
-        path.addLine(to: CGPoint(x: (74+31)*scale, y: 317*scale))
-        path.addLine(to: CGPoint(x: (139+31)*scale, y: 71*scale))
-        path.addLine(to: CGPoint(x: (206+31)*scale, y: 317*scale))
-        path.addLine(to: CGPoint(x: (274+31)*scale, y: 334*scale))
-        path.addLine(to: CGPoint(x: (186+31)*scale, y: 6*scale))
-        path.addLine(to: CGPoint(x: (92+31)*scale, y: 6*scale))
-        path.addLine(to: CGPoint(x: (4+31)*scale, y: 334*scale))
+        let path = AGSymbolPath.getPath(withScale: scale)
 
         return path
     }
