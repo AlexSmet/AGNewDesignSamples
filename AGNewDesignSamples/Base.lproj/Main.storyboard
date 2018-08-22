@@ -258,7 +258,7 @@
                                 <rect key="frame" x="85" y="475" width="150" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="6as-AR-AdD"/>
-                                    <constraint firstAttribute="width" constant="150" id="N6p-JW-QQc"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="N6p-JW-QQc"/>
                                 </constraints>
                                 <state key="normal" title="Stop"/>
                                 <connections>
@@ -269,7 +269,7 @@
                                 <rect key="frame" x="85" y="437" width="150" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="0LC-bU-GNY"/>
-                                    <constraint firstAttribute="width" constant="150" id="I13-L4-dGh"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="I13-L4-dGh"/>
                                 </constraints>
                                 <state key="normal" title="Scrolling Up"/>
                                 <connections>
@@ -279,7 +279,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixp-pM-G8w">
                                 <rect key="frame" x="85" y="513" width="150" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="5eF-XQ-hTY"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="5eF-XQ-hTY"/>
                                     <constraint firstAttribute="height" constant="30" id="bOu-dh-bUW"/>
                                 </constraints>
                                 <state key="normal" title="Scrolling Down"/>

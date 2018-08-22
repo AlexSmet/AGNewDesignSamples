@@ -64,5 +64,4 @@ public class AGAnimatedBackgroundView: UIView {
         kindOfAnimation = .stop
         animationLayer?.animate(.stop)
     }
-
 }
