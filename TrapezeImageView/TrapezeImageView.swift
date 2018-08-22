@@ -7,8 +7,10 @@
 
 import UIKit
 
-class TrapezeImageView: UIImageView {
-    
+/// ImageView c наложением трапецивидной маски в верхней части
+public class TrapezeImageView: UIImageView {
+
+    /// Видимая пропорция левой стороны, от 0 до 1, по умолчаннию 0.5
     public var leftSideRatio: CGFloat = 0.5 {
         didSet {
             applyMask()
@@ -16,6 +18,7 @@ class TrapezeImageView: UIImageView {
         }
     }
 
+    /// Видимая пропорция правой стороны, от 0 до 1, по умолчанию 1.0
     public var rightSideRatio: CGFloat = 1.0 {
         didSet {
             applyMask()
@@ -44,7 +47,7 @@ class TrapezeImageView: UIImageView {
         layer.mask = maskLayer
     }
 
-    override var frame: CGRect {
+    override public var frame: CGRect {
         didSet {
             applyMask()
         }
