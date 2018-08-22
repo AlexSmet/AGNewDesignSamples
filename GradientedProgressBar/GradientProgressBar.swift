@@ -1,6 +1,6 @@
 //
-//  SHGradientProgressBar.swift
-//  SimpleTest
+//  GradientProgressBar.swift
+//  CustomUI
 //
 //  Created by Alexander Smetannikov on 27/07/2018.
 //  Copyright © 2018 AlexSmetannikov. All rights reserved.
@@ -8,35 +8,44 @@
 
 import UIKit
 
-class GradientProgressBar: UIView, CAAnimationDelegate {
-
-    var barColors: [UIColor] {
+/// Анимированный прогрессбар с градиентным заполнением
+public class GradientProgressBar: UIView, CAAnimationDelegate {
+    /// Цвета для построения градиента, необходимо минимум два цвета
+    public var barColors: [UIColor] {
         get { return gradientLayer.barColors.map { UIColor(cgColor: $0) } }
         set { gradientLayer.barColors = newValue.map { $0.cgColor } }
     }
 
-    var borderColor: UIColor? {
+    /// Цвет границы, необязательный параметр
+    public var borderColor: UIColor? {
         get { return gradientLayer.aBorderColor == nil ? nil: UIColor(cgColor: gradientLayer.aBorderColor!) }
         set { gradientLayer.aBorderColor = newValue?.cgColor }
     }
 
-    var borderWidth: CGFloat {
+    /// Ширина границы
+    public var borderWidth: CGFloat {
         get { return gradientLayer.aBorderWidth }
         set { gradientLayer.aBorderWidth = newValue }
     }
 
-    var barTipAngle: CGFloat {
+    /// Угол наклона правой части прогрессбара, в градусах
+    public var barTipAngle: CGFloat {
         get { return gradientLayer.barTipAngle }
         set { gradientLayer.barTipAngle = newValue }
     }
 
-    @objc dynamic var progress: CGFloat = 0.0 {
+    @objc dynamic private var progress: CGFloat = 0.0 {
         didSet {
             gradientLayer.progress = progress
         }
     }
 
-    func setProgress(_ progress: CGFloat, withDuration animationDuration: Double, complition: ((Bool) -> Void)? = nil) {
+    /// Устанавливает заполненность индикатора
+    /// - Parameters:
+    ///   - progress: значение заполненности индикатора от 0 до 1
+    ///   - withDuration: длительность анимации
+    ///   - complition: необязательный параметр, функция которая будет вызвана после окончания анимации
+    public func setProgress(_ progress: CGFloat, withDuration animationDuration: Double, complition: ((Bool) -> Void)? = nil) {
         if animationDuration > 0 {
             onAnimationComplition = complition
             let animation = CABasicAnimation(keyPath: "progress")
@@ -54,28 +63,28 @@ class GradientProgressBar: UIView, CAAnimationDelegate {
 
     }
 
-    override class var layerClass: AnyClass {
+    override public class var layerClass: AnyClass {
         return GradientLayer.self
     }
 
-    var gradientLayer: GradientLayer {
+    private var gradientLayer: GradientLayer {
         return self.layer as! GradientLayer
     }
 
     private var onAnimationComplition: ((Bool) -> Void)?
 
-    func animationDidStop(_ animation: CAAnimation, finished: Bool) {
+    public func animationDidStop(_ animation: CAAnimation, finished: Bool) {
         onAnimationComplition?(finished)
     }
 
-    override var frame: CGRect {
+    override public var frame: CGRect {
         didSet {
             layer.setNeedsDisplay()
         }
     }
 }
 
-class GradientLayer: CAShapeLayer {
+private class GradientLayer: CAShapeLayer {
     var barTipAngle: CGFloat = 60
     @NSManaged var barColors: [CGColor]
     @NSManaged var progress: CGFloat
