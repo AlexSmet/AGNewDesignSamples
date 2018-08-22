@@ -17,12 +17,27 @@ class AnimatedBackgroundSample: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        animatedBackgroundPink.appplyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
-        animatedBackgroundPink.symbolsColor = UIColor(red: 245/255, green: 106/255, blue: 159/255, alpha: 1)
-        animatedBackgroundPink.startAnimation()
+        animatedBackgroundPink.symbolColor = UIColor(red: 245/255, green: 106/255, blue: 159/255, alpha: 1)
+        animatedBackgroundPink.startAnimation(.scrollDown)
 
-        animatedBackgroundGreen.appplyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
-        animatedBackgroundGreen.symbolsColor = UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1)
-        animatedBackgroundGreen.startAnimation()
+        animatedBackgroundGreen.symbolColor = UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1)
+        animatedBackgroundGreen.symbolAngles = [[90, 0], [179, 270]]
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        animatedBackgroundPink.appplyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
+    }
+
+    @IBAction func pushScrollingUpButton(_ sender: UIButton) {
+        animatedBackgroundGreen.startAnimation(.scrollUp)
+    }
+
+    @IBAction func pushStopButton(_ sender: UIButton) {
+        animatedBackgroundGreen.stopAnimation()
+    }
+
+    @IBAction func pushScrollingDown(_ sender: UIButton) {
+        animatedBackgroundGreen.startAnimation(.scrollDown)
     }
 }

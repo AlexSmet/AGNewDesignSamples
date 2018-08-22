@@ -7,6 +7,20 @@
 
 import UIKit
 
+extension CGFloat {
+    func toRadians() -> CGFloat {
+       return self*CGFloat.pi/180
+    }
+}
+
+public enum AnimationKind {
+    case scrollUp
+    case scrollDown
+    case rotateUp
+    case rotateDown
+    case stop
+}
+
 class AGSymbolPath {
     static func getPath(withScale scale: CGFloat)-> UIBezierPath {
         let path = UIBezierPath()
@@ -25,9 +39,11 @@ class AGSymbolPath {
 }
 
 class AGSymbolLayer: CAShapeLayer {
-    var symbolColor: UIColor
+    var symbolColor: UIColor!
+    var defaultAngle: CGFloat!
 
-    init(symbolColor: UIColor) {
+    init(angle: CGFloat, symbolColor: UIColor) {
+        defaultAngle = angle
         self.symbolColor = symbolColor
         super.init()
     }
@@ -36,41 +52,57 @@ class AGSymbolLayer: CAShapeLayer {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func draw(angle: CGFloat = 0) {
+    override init(layer: Any) {
+        if let layer = layer as? AGSymbolLayer {
+            symbolColor = layer.symbolColor
+        }
+        super.init(layer: layer)
+    }
+
+    func draw(withAngle: CGFloat? = nil) {
         path = getLetterPath().cgPath
         strokeColor = symbolColor.cgColor
         fillColor = symbolColor.cgColor
         lineWidth = 1
 
+        let angle: CGFloat = withAngle ?? defaultAngle
         if angle != 0 {
-            let radians = angle * CGFloat.pi/180
-            transform = CATransform3DMakeRotation(radians, 0, 0, 1)
+            transform = CATransform3DMakeRotation(angle.toRadians(), 0, 0, 1)
         }
     }
 
     func rotate(angle: CGFloat, withDuration duration: CFTimeInterval) {
-        rotate(startAngle: 0, finishAngle: angle, withDuration: duration)
+        rotate(startAngle: defaultAngle, finishAngle: angle, withDuration: duration)
     }
 
     func rotate(startAngle: CGFloat, finishAngle: CGFloat, withDuration duration: CFTimeInterval) {
         if duration > 0 {
-            draw(angle: startAngle)
+//            draw(withAngle: startAngle)
+//            let animation = createRotationAnimation(startAngle: startAngle, finishAngle: finishAngle, withDuration: duration)
+//            add(animation, forKey: "rotation")
 
-            let startAngleRadians = startAngle * CGFloat.pi/180
-            let finishAngleRadians = finishAngle * CGFloat.pi/180
-            let animation = CABasicAnimation(keyPath: "transform")
-            animation.duration = duration
-            animation.fromValue = startAngleRadians
-            animation.toValue = finishAngleRadians
-            animation.valueFunction = CAValueFunction(name: kCAValueFunctionRotateZ)
-
-            add(animation, forKey: "rotation")
-
-            transform = CATransform3DMakeRotation(finishAngleRadians, 0, 0, 1)
+            transform = CATransform3DMakeRotation(finishAngle.toRadians(), 0, 0, 1)
+//            draw(withAngle: finishAngle)
         } else {
-            draw(angle: finishAngle)
+            draw(withAngle: finishAngle)
         }
     }
+
+//    func createRotationAnimation(angle: CGFloat, withDuration duration: CFTimeInterval?) -> CABasicAnimation {
+//        return createRotationAnimation(startAngle: defaultAngle, finishAngle: angle, withDuration: duration)
+//    }
+//
+//    func createRotationAnimation(startAngle: CGFloat, finishAngle: CGFloat, withDuration duration: CFTimeInterval?) -> CABasicAnimation {
+//        let animation = CABasicAnimation(keyPath: "transform")
+//        if let duration = duration {
+//            animation.duration = duration
+//        }
+//        animation.fromValue = startAngle.toRadians()
+//        animation.toValue = finishAngle.toRadians()
+//        animation.valueFunction = CAValueFunction(name: kCAValueFunctionRotateZ)
+//
+//        return animation
+//    }
 
     func getLetterPath()-> UIBezierPath {
         let scale: CGFloat = min(frame.width/340, frame.height/340)
@@ -82,11 +114,13 @@ class AGSymbolLayer: CAShapeLayer {
 }
 
 
-class AGSymbolsRowLayer: CALayer {
+class AGSymbolsRowLayer: CALayer, CAAnimationDelegate {
     private var symbolLayers: [AGSymbolLayer] = []
-    private var symbolSize: CGFloat
+    private var symbolSize: CGFloat!
 
-    init(frame: CGRect, symbolSize: CGFloat, symbolColor: UIColor) {
+    private var onAnimationComplition: (()->Void)?
+
+    init(frame: CGRect, symbolSize: CGFloat, symbolColor: UIColor, defaultAngles: [CGFloat]) {
         self.symbolSize = symbolSize
 
         super.init()
@@ -100,7 +134,8 @@ class AGSymbolsRowLayer: CALayer {
         let yMargin = (frame.height - symbolSize) / 2
 
         for index in 0..<elementsInRow {
-            let element = AGSymbolLayer(symbolColor: symbolColor)
+            let angleIndex =  index % defaultAngles.count
+            let element = AGSymbolLayer(angle: defaultAngles[angleIndex], symbolColor: symbolColor)
             element.frame = CGRect(x: xMargin + (symbolSize*2) * CGFloat(index), y: yMargin + element.bounds.height/2, width: symbolSize, height: symbolSize)
             symbolLayers.append(element)
             addSublayer(element)
@@ -111,19 +146,15 @@ class AGSymbolsRowLayer: CALayer {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func draw(angleRule: ((_ index: Int)-> CGFloat)? = nil) {
-        var angle: CGFloat
-
-        for (index, element) in symbolLayers.enumerated() {
-
-            if let angleRule = angleRule {
-                angle = angleRule(index)
-            } else {
-                angle = 0
-            }
-
-            element.rotate(angle: angle, withDuration: 1)
+    override init(layer: Any) {
+        if let layer = layer as? AGSymbolsRowLayer {
+            symbolSize = layer.symbolSize
         }
+        super.init(layer: layer)
+    }
+
+    func draw() {
+        symbolLayers.forEach { $0.draw() }
     }
 
     func animate() {
@@ -133,39 +164,156 @@ class AGSymbolsRowLayer: CALayer {
             element.rotate(angle: angle, withDuration: 1)
         }
     }
+
+    func rotateUpAnimation() {
+        symbolLayers.forEach { $0.rotate(angle: 0, withDuration: 5) }
+    }
+
+    func rotateDownAnimation() {
+        symbolLayers.forEach { $0.rotate(angle: 180, withDuration: 5) }
+    }
+
+    func rotateToDefaulPositionAnimation() {
+        symbolLayers.forEach { $0.rotate(angle: $0.defaultAngle, withDuration: 5) }
+    }
+
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        guard flag else {
+            return
+        }
+
+        onAnimationComplition?()
+    }
 }
 
 
-class AGAnimatedBackgroundLayer: CAScrollLayer {
+class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
 
-    private var rowHeight: CGFloat
+    private (set) var rowHeight: CGFloat!
+    private var symbolSize: CGFloat!
+    private var symbolColor: UIColor!
 
-    init(frame: CGRect, backgroundColor: UIColor, rowHeight: CGFloat, symbolSize: CGFloat, symbolColor: UIColor) {
+    private var needToStopAnimation = true
+
+    private var currentAnimation: CABasicAnimation?
+
+    private var symbolsAngles: [[CGFloat]]!
+
+    private var rowLayers: [AGSymbolsRowLayer]? {
+        get { return sublayers?.filter({ $0 is AGSymbolsRowLayer }) as? [AGSymbolsRowLayer] }
+    }
+
+    init(frame: CGRect, backgroundColor: UIColor, rowHeight: CGFloat, symbolSize: CGFloat, symbolColor: UIColor, symbolsAngles: [[CGFloat]]) {
         self.rowHeight = rowHeight
+        self.symbolColor = symbolColor
+        self.symbolSize = symbolSize
+        self.symbolsAngles = symbolsAngles
         super.init()
         self.frame = frame
         self.backgroundColor = backgroundColor.cgColor
 
-        for i in 0...(Int(frame.height / rowHeight) + 1) {
-            let rotationRow = AGSymbolsRowLayer(frame: CGRect(x: 0, y: CGFloat(i)*rowHeight, width: frame.width, height: rowHeight), symbolSize: symbolSize, symbolColor: symbolColor)
-            rotationRow.draw()
-            addSublayer(rotationRow)
+        draw()
+    }
+
+    override init(layer: Any) {
+        if let layer = layer as? AGAnimatedBackgroundLayer {
+            rowHeight = layer.rowHeight
+            symbolColor = layer.symbolColor
+            symbolSize = layer.symbolSize
+            symbolsAngles = layer.symbolsAngles
         }
+
+        super.init(layer: layer)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func animate() {
-        removeAllAnimations()
+    override func layoutSublayers() {
+        super.layoutSublayers()
         
-        let scrolloingAnimation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-        scrolloingAnimation.duration = 1
-        scrolloingAnimation.fromValue = 0
-        scrolloingAnimation.toValue = -rowHeight
-        scrolloingAnimation.repeatCount = .greatestFiniteMagnitude
+    }
 
-        add(scrolloingAnimation, forKey: nil)
+    func draw() {
+        for i in -1...(Int(frame.height / rowHeight) + 1) {
+            let anglesIndex = abs(i % symbolsAngles.count)
+            let rotationRow = AGSymbolsRowLayer(frame: CGRect(x: 0, y: CGFloat(i)*rowHeight, width: frame.width, height: rowHeight), symbolSize: symbolSize, symbolColor: symbolColor, defaultAngles: symbolsAngles[anglesIndex])
+            rotationRow.draw()
+            addSublayer(rotationRow)
+        }
+    }
+
+    // Напрашивается выделить создание анимаций в отдельный класс
+
+    func createScrollUpAnimation(withCycleDuration: CFTimeInterval) -> CABasicAnimation {
+        let scrollingAnimation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
+        scrollingAnimation.duration = 1
+        scrollingAnimation.fromValue = 0
+        scrollingAnimation.toValue = -rowHeight
+        scrollingAnimation.repeatCount = 1
+        scrollingAnimation.delegate = self
+
+        return scrollingAnimation
+    }
+
+    func createScrollDownAnimation(withCycleDuration: CFTimeInterval) -> CABasicAnimation {
+        let scrollingAnimation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
+        scrollingAnimation.duration = 1
+        scrollingAnimation.fromValue = 0
+        scrollingAnimation.toValue = rowHeight
+        scrollingAnimation.repeatCount = 1
+        scrollingAnimation.delegate = self
+
+        return scrollingAnimation
+    }
+
+    func animate(kindOfAnimation: AnimationKind) {
+        removeAllAnimations()
+        needToStopAnimation = false
+        // создаем нужный тип анимации
+        switch kindOfAnimation {
+        case .scrollUp:
+            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateUpAnimation()})
+            currentAnimation = createScrollUpAnimation(withCycleDuration: 1)
+        case .scrollDown:
+            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateDownAnimation()})
+            currentAnimation = createScrollDownAnimation(withCycleDuration: 1)
+        case .rotateUp:
+            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateUpAnimation()})
+            currentAnimation = nil
+        case .rotateDown:
+            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateDownAnimation()})
+            currentAnimation = nil
+        case .stop:
+            needToStopAnimation = true
+            currentAnimation = nil
+            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateToDefaulPositionAnimation()})
+        }
+
+        // стартуем анимацию
+        if let currentAnimation = currentAnimation {
+            add(currentAnimation, forKey: "scrolling")
+        }
+    }
+
+    func stop() {
+        //let loffsetY = presentation()?.value(forKeyPath: "sublayerTransform.translation.y") as? CGFloat
+        needToStopAnimation = true
+    }
+
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        guard flag else {
+            return
+        }
+
+        if !needToStopAnimation {
+            needToStopAnimation = false
+            add(currentAnimation!, forKey: "scrolling")
+        }
     }
 }
+
+
+
+
