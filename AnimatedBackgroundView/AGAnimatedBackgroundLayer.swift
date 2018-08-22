@@ -13,7 +13,7 @@ extension CGFloat {
     }
 }
 
-public enum AnimationKind {
+public enum AGBackgroundAnimationKind {
     case scrollUp
     case scrollDown
     case rotateUp
@@ -39,6 +39,7 @@ class AGSymbolPath {
 }
 
 class AGSymbolLayer: CAShapeLayer {
+    let symbolDefaultSize: CGFloat = 340
     var symbolColor: UIColor!
     var defaultAngle: CGFloat!
 
@@ -55,6 +56,7 @@ class AGSymbolLayer: CAShapeLayer {
     override init(layer: Any) {
         if let layer = layer as? AGSymbolLayer {
             symbolColor = layer.symbolColor
+            defaultAngle = layer.defaultAngle
         }
         super.init(layer: layer)
     }
@@ -71,50 +73,19 @@ class AGSymbolLayer: CAShapeLayer {
         }
     }
 
-    func rotate(angle: CGFloat, withDuration duration: CFTimeInterval) {
-        rotate(startAngle: defaultAngle, finishAngle: angle, withDuration: duration)
+    func rotate(angle: CGFloat) {
+        transform = CATransform3DMakeRotation(angle.toRadians(), 0, 0, 1)
     }
-
-    func rotate(startAngle: CGFloat, finishAngle: CGFloat, withDuration duration: CFTimeInterval) {
-        if duration > 0 {
-//            draw(withAngle: startAngle)
-//            let animation = createRotationAnimation(startAngle: startAngle, finishAngle: finishAngle, withDuration: duration)
-//            add(animation, forKey: "rotation")
-
-            transform = CATransform3DMakeRotation(finishAngle.toRadians(), 0, 0, 1)
-//            draw(withAngle: finishAngle)
-        } else {
-            draw(withAngle: finishAngle)
-        }
-    }
-
-//    func createRotationAnimation(angle: CGFloat, withDuration duration: CFTimeInterval?) -> CABasicAnimation {
-//        return createRotationAnimation(startAngle: defaultAngle, finishAngle: angle, withDuration: duration)
-//    }
-//
-//    func createRotationAnimation(startAngle: CGFloat, finishAngle: CGFloat, withDuration duration: CFTimeInterval?) -> CABasicAnimation {
-//        let animation = CABasicAnimation(keyPath: "transform")
-//        if let duration = duration {
-//            animation.duration = duration
-//        }
-//        animation.fromValue = startAngle.toRadians()
-//        animation.toValue = finishAngle.toRadians()
-//        animation.valueFunction = CAValueFunction(name: kCAValueFunctionRotateZ)
-//
-//        return animation
-//    }
 
     func getLetterPath()-> UIBezierPath {
-        let scale: CGFloat = min(frame.width/340, frame.height/340)
-
+        let scale: CGFloat = min(frame.width/symbolDefaultSize, frame.height/symbolDefaultSize)
         let path = AGSymbolPath.getPath(withScale: scale)
-
         return path
     }
 }
 
 
-class AGSymbolsRowLayer: CALayer, CAAnimationDelegate {
+class AGSymbolsRowLayer: CALayer {
     private var symbolLayers: [AGSymbolLayer] = []
     private var symbolSize: CGFloat!
 
@@ -129,16 +100,16 @@ class AGSymbolsRowLayer: CALayer, CAAnimationDelegate {
         self.frame = frame
 
         let partsInRow = (frame.width/symbolSize).rounded(.down)
-        let elementsInRow = Int((partsInRow/2).rounded())
-        let xMargin = (frame.width - (CGFloat(elementsInRow)*2 - 1)*symbolSize)/2
+        let symbolsInRow = Int((partsInRow/2).rounded())
+        let xMargin = (frame.width - (CGFloat(symbolsInRow)*2 - 1)*symbolSize)/2
         let yMargin = (frame.height - symbolSize) / 2
 
-        for index in 0..<elementsInRow {
+        for index in 0..<symbolsInRow {
             let angleIndex =  index % defaultAngles.count
-            let element = AGSymbolLayer(angle: defaultAngles[angleIndex], symbolColor: symbolColor)
-            element.frame = CGRect(x: xMargin + (symbolSize*2) * CGFloat(index), y: yMargin + element.bounds.height/2, width: symbolSize, height: symbolSize)
-            symbolLayers.append(element)
-            addSublayer(element)
+            let agSymbol = AGSymbolLayer(angle: defaultAngles[angleIndex], symbolColor: symbolColor)
+            agSymbol.frame = CGRect(x: xMargin + (symbolSize*2) * CGFloat(index), y: yMargin + agSymbol.bounds.height/2, width: symbolSize, height: symbolSize)
+            symbolLayers.append(agSymbol)
+            addSublayer(agSymbol)
         }
     }
 
@@ -157,51 +128,33 @@ class AGSymbolsRowLayer: CALayer, CAAnimationDelegate {
         symbolLayers.forEach { $0.draw() }
     }
 
-    func animate() {
-        var angle: CGFloat
-        for (index, element) in symbolLayers.enumerated() {
-            angle = index%2 == 0 ? -90: 0
-            element.rotate(angle: angle, withDuration: 1)
-        }
+    func rotateUp() {
+        symbolLayers.forEach { $0.rotate(angle: 0) }
     }
 
-    func rotateUpAnimation() {
-        symbolLayers.forEach { $0.rotate(angle: 0, withDuration: 5) }
+    func rotateDown() {
+        symbolLayers.forEach { $0.rotate(angle: 180) }
     }
 
-    func rotateDownAnimation() {
-        symbolLayers.forEach { $0.rotate(angle: 180, withDuration: 5) }
-    }
-
-    func rotateToDefaulPositionAnimation() {
-        symbolLayers.forEach { $0.rotate(angle: $0.defaultAngle, withDuration: 5) }
-    }
-
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        guard flag else {
-            return
-        }
-
-        onAnimationComplition?()
+    func rotateToDefaulPosition() {
+        symbolLayers.forEach { $0.rotate(angle: $0.defaultAngle) }
     }
 }
 
 
 class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
 
-    private (set) var rowHeight: CGFloat!
+    private var rowHeight: CGFloat!
     private var symbolSize: CGFloat!
     private var symbolColor: UIColor!
-
-    private var needToStopAnimation = true
-
-    private var currentAnimation: CABasicAnimation?
-
     private var symbolsAngles: [[CGFloat]]!
-
-    private var rowLayers: [AGSymbolsRowLayer]? {
+    private var symbolsRowLayers: [AGSymbolsRowLayer]? {
         get { return sublayers?.filter({ $0 is AGSymbolsRowLayer }) as? [AGSymbolsRowLayer] }
     }
+
+    private var currentAnimation: CABasicAnimation?
+    private var scrollUpAnimation: CABasicAnimation!
+    private var scrollDownAnimation: CABasicAnimation!
 
     init(frame: CGRect, backgroundColor: UIColor, rowHeight: CGFloat, symbolSize: CGFloat, symbolColor: UIColor, symbolsAngles: [[CGFloat]]) {
         self.rowHeight = rowHeight
@@ -212,6 +165,9 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         self.frame = frame
         self.backgroundColor = backgroundColor.cgColor
 
+        scrollUpAnimation = createScrollAnimation(toValue: -rowHeight, withCycleDuration: 1)
+        scrollDownAnimation = createScrollAnimation(toValue: rowHeight, withCycleDuration: 1)
+
         draw()
     }
 
@@ -221,6 +177,8 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
             symbolColor = layer.symbolColor
             symbolSize = layer.symbolSize
             symbolsAngles = layer.symbolsAngles
+            scrollUpAnimation = layer.scrollUpAnimation
+            scrollDownAnimation = layer.scrollDownAnimation
         }
 
         super.init(layer: layer)
@@ -230,12 +188,8 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSublayers() {
-        super.layoutSublayers()
-        
-    }
-
-    func draw() {
+    private func draw() {
+        // (-1, +1) добавляем две дополнительных строки символов для анимации
         for i in -1...(Int(frame.height / rowHeight) + 1) {
             let anglesIndex = abs(i % symbolsAngles.count)
             let rotationRow = AGSymbolsRowLayer(frame: CGRect(x: 0, y: CGFloat(i)*rowHeight, width: frame.width, height: rowHeight), symbolSize: symbolSize, symbolColor: symbolColor, defaultAngles: symbolsAngles[anglesIndex])
@@ -244,51 +198,37 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         }
     }
 
-    // Напрашивается выделить создание анимаций в отдельный класс
-
-    func createScrollUpAnimation(withCycleDuration: CFTimeInterval) -> CABasicAnimation {
+    private func createScrollAnimation(toValue: CGFloat, withCycleDuration: CFTimeInterval) -> CABasicAnimation {
         let scrollingAnimation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         scrollingAnimation.duration = 1
         scrollingAnimation.fromValue = 0
-        scrollingAnimation.toValue = -rowHeight
+        scrollingAnimation.toValue = toValue
         scrollingAnimation.repeatCount = 1
         scrollingAnimation.delegate = self
 
         return scrollingAnimation
     }
 
-    func createScrollDownAnimation(withCycleDuration: CFTimeInterval) -> CABasicAnimation {
-        let scrollingAnimation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
-        scrollingAnimation.duration = 1
-        scrollingAnimation.fromValue = 0
-        scrollingAnimation.toValue = rowHeight
-        scrollingAnimation.repeatCount = 1
-        scrollingAnimation.delegate = self
-
-        return scrollingAnimation
-    }
-
-    func animate(kindOfAnimation: AnimationKind) {
+    public func animate(_ kindOfAnimation: AGBackgroundAnimationKind) {
         removeAllAnimations()
-        needToStopAnimation = false
+
         // создаем нужный тип анимации
         switch kindOfAnimation {
         case .scrollUp:
-            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateUpAnimation()})
-            currentAnimation = createScrollUpAnimation(withCycleDuration: 1)
+            symbolsRowLayers?.forEach({ $0 .rotateUp() })
+            currentAnimation = scrollUpAnimation
         case .scrollDown:
-            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateDownAnimation()})
-            currentAnimation = createScrollDownAnimation(withCycleDuration: 1)
+            symbolsRowLayers?.forEach({ $0.rotateDown() })
+            currentAnimation = scrollDownAnimation
         case .rotateUp:
-            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateUpAnimation()})
+            symbolsRowLayers?.forEach({ $0.rotateUp() })
             currentAnimation = nil
         case .rotateDown:
-            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateDownAnimation()})
+            symbolsRowLayers?.forEach({ $0.rotateDown() })
             currentAnimation = nil
         case .stop:
-            needToStopAnimation = true
+            symbolsRowLayers?.forEach({ $0.rotateToDefaulPosition() })
             currentAnimation = nil
-            sublayers?.filter({ return $0 is AGSymbolsRowLayer }).forEach({ ($0 as! AGSymbolsRowLayer).rotateToDefaulPositionAnimation()})
         }
 
         // стартуем анимацию
@@ -297,9 +237,8 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         }
     }
 
-    func stop() {
-        //let loffsetY = presentation()?.value(forKeyPath: "sublayerTransform.translation.y") as? CGFloat
-        needToStopAnimation = true
+    public func stop() {
+        currentAnimation = nil
     }
 
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -307,9 +246,8 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
             return
         }
 
-        if !needToStopAnimation {
-            needToStopAnimation = false
-            add(currentAnimation!, forKey: "scrolling")
+        if let currentAnimation = currentAnimation {
+            add(currentAnimation, forKey: "scrolling")
         }
     }
 }

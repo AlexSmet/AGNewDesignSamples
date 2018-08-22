@@ -16,7 +16,7 @@ public class AGAnimatedBackgroundView: UIView {
     private let rowHeight: CGFloat = 40
     public var symbolAngles: [[CGFloat]] = [[0]]
 
-    private var kindAnimation: AnimationKind = .scrollUp
+    private var kindOfAnimation: AGBackgroundAnimationKind = .scrollUp
 
     private func initAnimationLayer() {
         layer.sublayers?.removeAll()
@@ -32,7 +32,7 @@ public class AGAnimatedBackgroundView: UIView {
 
         layer.addSublayer(animationLayer)
         if animationInProcess {
-            animationLayer.animate(kindOfAnimation: kindAnimation)
+            animationLayer.animate(kindOfAnimation)
         } else {
             animationLayer.stop()
         }
@@ -54,15 +54,15 @@ public class AGAnimatedBackgroundView: UIView {
         initAnimationLayer()
     }
 
-    public func startAnimation(_ kindAnimation: AnimationKind) {
-        self.kindAnimation = kindAnimation
+    public func startAnimation(_ kindOfAnimation: AGBackgroundAnimationKind) {
+        self.kindOfAnimation = kindOfAnimation
         animationInProcess = true
-        animationLayer?.animate(kindOfAnimation: kindAnimation)
+        animationLayer?.animate(kindOfAnimation)
     }
 
     public func stopAnimation() {
-        kindAnimation = .stop
-        animationLayer?.animate(kindOfAnimation: .stop)
+        kindOfAnimation = .stop
+        animationLayer?.animate(.stop)
     }
 
 }
