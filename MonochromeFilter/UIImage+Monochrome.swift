@@ -1,11 +1,18 @@
-//  UIImage extension, create monochrome image from source image
-//  Created by Alexander Smetannikov on 31/07/2018.
+//
+//  UIImage+Monochrome.swift
+//
+//  UIImage extension, создание монохромного изображения из исходного
 //  More info about filters https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html
+//
+//  Created by Alexander Smetannikov on 31/07/2018.
+
 
 import UIKit
 
 extension UIImage {
-    func monochromeImage(color: UIColor, intesity: Float = 1.0) -> UIImage? {
+
+    /// Создание монохромного изображения из исходного
+    func monochrome(color: UIColor, intesity: Float = 1.0) -> UIImage? {
         guard let filter = CIFilter(name: "CIColorMonochrome" ) else {
             return nil
         }
@@ -18,7 +25,8 @@ extension UIImage {
         return resultImage == nil ? nil : UIImage(ciImage: resultImage!)
     }
 
-    func monochromeImage(color: UIColor, intesity: Float = 1.0, result: @escaping ((UIImage?)->Void) ) {
+    /// Асинхронное создание монохромного изображения из исходного
+    func monochrome(color: UIColor, intesity: Float = 1.0, result: @escaping ((UIImage?)->Void) ) {
         guard let filter = CIFilter(name: "CIColorMonochrome" ) else {
             result(nil)
             return

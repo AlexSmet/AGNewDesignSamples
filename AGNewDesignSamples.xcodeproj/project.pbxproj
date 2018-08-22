@@ -23,7 +23,7 @@
 		55AE792F2123F7E200294B29 /* NumbersScrollSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE792E2123F7E200294B29 /* NumbersScrollSample.swift */; };
 		55AE79312123F8D400294B29 /* GradientProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79302123F8D400294B29 /* GradientProgressBar.swift */; };
 		55AE79342123F90F00294B29 /* TrapezeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79332123F90F00294B29 /* TrapezeImageView.swift */; };
-		55AE79372123F94500294B29 /* UIImage+MonochromeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79362123F94500294B29 /* UIImage+MonochromeImage.swift */; };
+		55AE79372123F94500294B29 /* UIImage+Monochrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79362123F94500294B29 /* UIImage+Monochrome.swift */; };
 		55AE793B2123FAD800294B29 /* TrapezeImageSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE79392123FAD800294B29 /* TrapezeImageSample.swift */; };
 		55AE793C2123FAD800294B29 /* ProgressBarSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AE793A2123FAD800294B29 /* ProgressBarSample.swift */; };
 /* End PBXBuildFile section */
@@ -47,7 +47,7 @@
 		55AE792E2123F7E200294B29 /* NumbersScrollSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumbersScrollSample.swift; sourceTree = "<group>"; };
 		55AE79302123F8D400294B29 /* GradientProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradientProgressBar.swift; path = GradientedProgressBar/GradientProgressBar.swift; sourceTree = SOURCE_ROOT; };
 		55AE79332123F90F00294B29 /* TrapezeImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TrapezeImageView.swift; path = TrapezeImageView/TrapezeImageView.swift; sourceTree = SOURCE_ROOT; };
-		55AE79362123F94500294B29 /* UIImage+MonochromeImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+MonochromeImage.swift"; path = "MonochromeFilter/UIImage+MonochromeImage.swift"; sourceTree = SOURCE_ROOT; };
+		55AE79362123F94500294B29 /* UIImage+Monochrome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Monochrome.swift"; path = "MonochromeFilter/UIImage+Monochrome.swift"; sourceTree = SOURCE_ROOT; };
 		55AE79392123FAD800294B29 /* TrapezeImageSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrapezeImageSample.swift; sourceTree = "<group>"; };
 		55AE793A2123FAD800294B29 /* ProgressBarSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarSample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,7 +141,7 @@
 		55AE79382123F94900294B29 /* MonochromeFilter */ = {
 			isa = PBXGroup;
 			children = (
-				55AE79362123F94500294B29 /* UIImage+MonochromeImage.swift */,
+				55AE79362123F94500294B29 /* UIImage+Monochrome.swift */,
 			);
 			path = MonochromeFilter;
 			sourceTree = "<group>";
@@ -219,7 +219,7 @@
 			files = (
 				55AE792B2123F73A00294B29 /* NumbersScrollAnimatedView.swift in Sources */,
 				55AE79312123F8D400294B29 /* GradientProgressBar.swift in Sources */,
-				55AE79372123F94500294B29 /* UIImage+MonochromeImage.swift in Sources */,
+				55AE79372123F94500294B29 /* UIImage+Monochrome.swift in Sources */,
 				55AE79342123F90F00294B29 /* TrapezeImageView.swift in Sources */,
 				55AE79162123F56300294B29 /* ViewController.swift in Sources */,
 				55AE793B2123FAD800294B29 /* TrapezeImageSample.swift in Sources */,
