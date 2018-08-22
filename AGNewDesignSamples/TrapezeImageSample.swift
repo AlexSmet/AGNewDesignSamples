@@ -18,11 +18,11 @@ class TrapezeImageSample: UIViewController {
 
 
         // trapezeImageView.image = trapezeImageView.image!.monochromeImage(color: UIColor.blue, intesity: 1)
-        trapezeImageView.image!.monochromeImage(color: .blue) { self.trapezeImageView.image = $0 }
+        trapezeImageView.image!.monochrome(color: .blue) { self.trapezeImageView.image = $0 }
 
         trapezeImageView.leftSideRatio = 0.3
         trapezeImageView.rightSideRatio = 1
 
-        sampleImage.appplyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
+        sampleImage.applyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
     }
 }

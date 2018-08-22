@@ -26,7 +26,7 @@ class AnimatedBackgroundSample: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        animatedBackgroundPink.appplyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
+        animatedBackgroundPink.applyTrapezeMask(leftSideRatio: 0.3, rightSideRatio: 1)
     }
 
     @IBAction func pushScrollingUpButton(_ sender: UIButton) {

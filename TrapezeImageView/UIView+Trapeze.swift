@@ -1,6 +1,5 @@
 //
 //  UIView+Trapeze.swift
-//  AGNewDesignSamples
 //
 //  Created by Alexander Smetannikov on 20/08/2018.
 //  Copyright © 2018 Alexander Smetannikov. All rights reserved.
@@ -9,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    public func appplyTrapezeMask(leftSideRatio: CGFloat = 0.5, rightSideRatio: CGFloat = 1.0) {
+    public func applyTrapezeMask(leftSideRatio: CGFloat = 0.5, rightSideRatio: CGFloat = 1.0) {
         let maskLayer = CAShapeLayer()
         let width = bounds.width
         let height = bounds.height
