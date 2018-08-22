@@ -1,5 +1,5 @@
 //
-//  ScrollableColumn.swift
+//  NumbersScrollableColumn.swift
 //
 //
 //  Created by Alexander Smetannikov on 13/08/2018.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum ScrollingDirection {
+public enum NumbersScrollAnimationDirection {
     case up
     case down
 }
 
-class ScrollableColumn {
+class  NumbersScrollableColumn {
     private var font: UIFont
     private var textColor: UIColor
 
@@ -22,7 +22,7 @@ class ScrollableColumn {
     var timeOffset: CFTimeInterval = 0
     var duration: CFTimeInterval = 5
     var durationOffset: CFTimeInterval = 0
-    var scrollingDirection: ScrollingDirection = .down
+    var scrollingDirection: NumbersScrollAnimationDirection = .down
     var inverseSequence: Bool = false
 
     var scrollLayer: CAScrollLayer
@@ -36,7 +36,7 @@ class ScrollableColumn {
         superLayer.addSublayer(scrollLayer)
     }
 
-    func createAnimation(timeOffset: CFTimeInterval, duration: CFTimeInterval, durationOffset: CFTimeInterval, scrollingDirection: ScrollingDirection, inverseSequence: Bool = false) {
+    func createAnimation(timeOffset: CFTimeInterval, duration: CFTimeInterval, durationOffset: CFTimeInterval, scrollingDirection: NumbersScrollAnimationDirection, inverseSequence: Bool = false) {
         self.timeOffset = timeOffset
         self.duration = duration
         self.durationOffset = durationOffset
@@ -180,5 +180,20 @@ class ScrollableColumn {
         newLayer.string = attributedString
 
         return newLayer
+    }
+}
+
+private class VerticallyCenteredTextLayer: CATextLayer {
+    override open func draw(in ctx: CGContext) {
+        if let attributedString = self.string as? NSAttributedString {
+            let height = self.bounds.size.height
+            let stringSize = attributedString.size()
+            let yDiff = (height - stringSize.height) / 2
+
+            ctx.saveGState()
+            ctx.translateBy(x: 0.0, y: yDiff)
+            super.draw(in: ctx)
+            ctx.restoreGState()
+        }
     }
 }

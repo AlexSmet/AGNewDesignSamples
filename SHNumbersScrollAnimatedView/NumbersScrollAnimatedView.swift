@@ -12,7 +12,6 @@
 import UIKit
 
 public class NumbersScrollAnimatedView: UIView {
-
     /// Значение для отображния, числовые символы будут скроллироваться
     public var text: String = ""
 
@@ -32,9 +31,9 @@ public class NumbersScrollAnimatedView: UIView {
      **index**: индекс символа для которго будет применена эта функция
 
      Возвращает смещение времени начала анимации конкретного символа.
-    */
+     */
 
-    var animationTimeOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
+    public var animationTimeOffsetRule: ((_ text: String, _ index: Int) -> CFTimeInterval)!
     /**
      Позволяет задать функцию которая определяет уменшение длительности анимации каждого символа.
      По умолчанию задана функция возвращающая случайные значения от 0 до 1
@@ -47,7 +46,7 @@ public class NumbersScrollAnimatedView: UIView {
 
      Возвращает значение для уменьшения длительности анимации конкретного символа.
      */
-    var animationDurationOffsetRule: ((_ text: String, _ forColumn: Int) -> CFTimeInterval)!
+    public var animationDurationOffsetRule: ((_ text: String, _ forColumn: Int) -> CFTimeInterval)!
 
     /**
      Позволяет задать функцию которая определяет направление анимации каждого символа, вверх (.up) или вниз (.down).
@@ -60,8 +59,8 @@ public class NumbersScrollAnimatedView: UIView {
      **index**: индекс символа для которго будет применена эта функция
 
      Возвращает направление анимации для конкретного символа
-    */
-    var scrollingDirectionRule: ((_ text: String, _ forColumn: Int) -> ScrollingDirection)!
+     */
+    public var scrollingDirectionRule: ((_ text: String, _ forColumn: Int) -> NumbersScrollAnimationDirection)!
 
     /**
      Позволяет задать функцию которая определяет выполнять или нет инвертацию последовательности цифр.
@@ -74,10 +73,10 @@ public class NumbersScrollAnimatedView: UIView {
      **index**: индекс символа для которго будет применена эта функция
 
      Возвращает bool-значение выполнять или не выполнять инвертацию последовательности цифр 01234567890
-    */
-    var inverseSequenceRule: ((_ text: String, _ forColumn: Int) -> Bool)!
+     */
+    public var inverseSequenceRule: ((_ text: String, _ forColumn: Int) -> Bool)!
 
-    private var scrollableColumns: [ScrollableColumn] = []
+    private var scrollableColumns: [ NumbersScrollableColumn] = []
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,10 +89,10 @@ public class NumbersScrollAnimatedView: UIView {
     }
 
     private func commonInit() {
-        animationTimeOffsetRule = NumbersScrollAnimatedView.randomTimeOffsetSetter
-        animationDurationOffsetRule = NumbersScrollAnimatedView.randomTimeOffsetSetter
-        scrollingDirectionRule = NumbersScrollAnimatedView.randomDirection
-        inverseSequenceRule = NumbersScrollAnimatedView.randomInverse
+        animationTimeOffsetRule = NumbersScrollAnimatedView.random
+        animationDurationOffsetRule = NumbersScrollAnimatedView.random
+        scrollingDirectionRule = NumbersScrollAnimatedView.random
+        inverseSequenceRule = NumbersScrollAnimatedView.random
     }
 
     public func setValue(_ value: Int, animated: Bool) {
@@ -130,7 +129,7 @@ public class NumbersScrollAnimatedView: UIView {
             }
 
             let newColumnFrame = CGRect(x: xPosition , y: 0, width: width, height: height)
-            let newColumn = ScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
+            let newColumn =  NumbersScrollableColumn(withFrame: newColumnFrame, forLayer: layer, font: font, textColor: textColor)
             newColumn.symbol = character
             scrollableColumns.append(newColumn)
 
@@ -155,24 +154,50 @@ public class NumbersScrollAnimatedView: UIView {
 
 extension NumbersScrollAnimatedView {
 
-    static func randomTimeOffsetSetter(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> CFTimeInterval {
         return drand48()
     }
 
-    static func randomDirection(_ scrollableValue: String, _ forColumn: Int) -> ScrollingDirection {
-        if arc4random_uniform(2) == 0 {
-            return .down
-        } else {
-            return .up
-        }
-    }
-
-    static func randomInverse(_ scrollableValue: String, _ forColumn: Int) -> Bool {
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> Bool {
         let randomValue = arc4random_uniform(2)
         if  randomValue == 0 {
             return true
         } else {
             return false
         }
+    }
+
+    static func random(_ scrollableValue: String, _ forColumn: Int) -> NumbersScrollAnimationDirection {
+        if arc4random_uniform(2) == 0 {
+            return .down
+        } else {
+            return .up
+        }
+    }
+}
+
+private extension String {
+    func size(usingFont font: UIFont) -> CGSize {
+        let fontAttributes = [NSAttributedStringKey.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        return size
+    }
+
+    func width(usingFont font: UIFont) -> CGFloat {
+        return size(usingFont: font).width
+    }
+
+    func height(usingFont font: UIFont) -> CGFloat {
+        return size(usingFont: font).height
+    }
+
+    static func numericSymbolsMaxWidth(usingFont font: UIFont) -> CGFloat {
+        var maxWidth:CGFloat = 0
+
+        for symbol in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] {
+            maxWidth = Swift.max(maxWidth, symbol.width(usingFont: font))
+        }
+
+        return maxWidth
     }
 }

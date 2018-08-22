@@ -24,9 +24,9 @@ class NumbersScrollSample: UIViewController {
         // animatedNumbers.inverseSequenceRule = { (_, _) in return false }
         animatedNumbers.scrollingDirectionRule = { (_, index) in
             if index % 2 == 0 {
-                return ScrollingDirection.down
+                return NumbersScrollAnimationDirection.down
             } else {
-                return ScrollingDirection.up
+                return NumbersScrollAnimationDirection.up
             }
         }
         animatedNumbers.animationDuration = 3
