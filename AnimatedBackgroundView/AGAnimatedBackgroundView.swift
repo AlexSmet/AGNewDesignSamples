@@ -10,17 +10,17 @@ import UIKit
 public class AGAnimatedBackgroundView: UIView {
     private var animationLayer: AGAnimatedBackgroundLayer!
     private var animationInProcess: Bool = false
-    private let animationCycleDuration: CFTimeInterval = 1
-    public var symbolColor: UIColor?
-    private let symbolSize: CGFloat = 18
-    private let rowHeight: CGFloat = 40
-    public var symbolAngles: [[CGFloat]] = [[0]]
 
-    private var kindOfAnimation: AGBackgroundAnimationKind = .scrollUp
+    public var symbolColor: UIColor? { didSet { animationLayer.symbolColor = symbolColor }}
+    private var symbolSize: CGFloat = 18 { didSet { animationLayer.symbolSize = symbolSize }}
+    private var rowHeight: CGFloat = 40 { didSet { animationLayer.rowHeight = rowHeight }}
+    public var symbolAngles: [[CGFloat]] = [[0]] { didSet { animationLayer.symbolsAngles = symbolAngles }}
+
+    private var kindOfAnimation: AGBackgroundAnimationKind = .stop
 
     private func initAnimationLayer() {
         layer.sublayers?.removeAll()
-        
+
         animationLayer = AGAnimatedBackgroundLayer(
             frame: bounds,
             backgroundColor: backgroundColor ?? .white,
@@ -51,7 +51,6 @@ public class AGAnimatedBackgroundView: UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
         animationLayer.frame = self.bounds
-        initAnimationLayer()
     }
 
     public func startAnimation(_ kindOfAnimation: AGBackgroundAnimationKind) {
@@ -65,3 +64,4 @@ public class AGAnimatedBackgroundView: UIView {
         animationLayer?.animate(.stop)
     }
 }
+

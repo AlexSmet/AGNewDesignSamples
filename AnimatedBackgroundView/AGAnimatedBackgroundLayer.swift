@@ -144,17 +144,22 @@ class AGSymbolsRowLayer: CALayer {
 
 class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
 
-    private var rowHeight: CGFloat!
-    private var symbolSize: CGFloat!
-    private var symbolColor: UIColor!
-    private var symbolsAngles: [[CGFloat]]!
+    override var frame: CGRect { didSet { redraw() } }
+    var rowHeight: CGFloat! { didSet { redraw() } }
+    var symbolSize: CGFloat! { didSet { redraw() } }
+    var symbolColor: UIColor! { didSet { redraw() } }
+    var symbolsAngles: [[CGFloat]]! { didSet { redraw() } }
+
     private var symbolsRowLayers: [AGSymbolsRowLayer]? {
         get { return sublayers?.filter({ $0 is AGSymbolsRowLayer }) as? [AGSymbolsRowLayer] }
     }
 
+    private var kindOfAnimation: AGBackgroundAnimationKind = .stop
     private var currentAnimation: CABasicAnimation?
     private var scrollUpAnimation: CABasicAnimation!
     private var scrollDownAnimation: CABasicAnimation!
+
+
 
     init(frame: CGRect, backgroundColor: UIColor, rowHeight: CGFloat, symbolSize: CGFloat, symbolColor: UIColor, symbolsAngles: [[CGFloat]]) {
         self.rowHeight = rowHeight
@@ -198,6 +203,12 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         }
     }
 
+    private func redraw() {
+        sublayers?.removeAll()
+        draw()
+        animate(kindOfAnimation)
+    }
+
     private func createScrollAnimation(toValue: CGFloat, withCycleDuration: CFTimeInterval) -> CABasicAnimation {
         let scrollingAnimation = CABasicAnimation(keyPath: "sublayerTransform.translation.y")
         scrollingAnimation.duration = 1
@@ -211,7 +222,7 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
 
     public func animate(_ kindOfAnimation: AGBackgroundAnimationKind) {
         removeAllAnimations()
-
+        self.kindOfAnimation = kindOfAnimation
         // создаем нужный тип анимации
         switch kindOfAnimation {
         case .scrollUp:
