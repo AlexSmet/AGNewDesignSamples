@@ -157,8 +157,6 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
     private var scrollUpAnimation: CABasicAnimation!
     private var scrollDownAnimation: CABasicAnimation!
 
-
-
     init(frame: CGRect, backgroundColor: UIColor, rowHeight: CGFloat, symbolSize: CGFloat, symbolColor: UIColor, symbolsAngles: [[CGFloat]]) {
         self.rowHeight = rowHeight
         self.symbolColor = symbolColor

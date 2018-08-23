@@ -9,18 +9,13 @@ import UIKit
 
 public class AGAnimatedBackgroundView: UIView {
     private var animationLayer: AGAnimatedBackgroundLayer!
-    private var animationInProcess: Bool = false
 
     public var symbolColor: UIColor? { didSet { animationLayer.symbolColor = symbolColor }}
     private var symbolSize: CGFloat = 18 { didSet { animationLayer.symbolSize = symbolSize }}
     private var rowHeight: CGFloat = 40 { didSet { animationLayer.rowHeight = rowHeight }}
     public var symbolAngles: [[CGFloat]] = [[0]] { didSet { animationLayer.symbolsAngles = symbolAngles }}
 
-    private var kindOfAnimation: AGBackgroundAnimationKind = .stop
-
     private func initAnimationLayer() {
-        layer.sublayers?.removeAll()
-
         animationLayer = AGAnimatedBackgroundLayer(
             frame: bounds,
             backgroundColor: backgroundColor ?? .white,
@@ -31,11 +26,6 @@ public class AGAnimatedBackgroundView: UIView {
         )
 
         layer.addSublayer(animationLayer)
-        if animationInProcess {
-            animationLayer.animate(kindOfAnimation)
-        } else {
-            animationLayer.stop()
-        }
     }
 
     public override init(frame: CGRect) {
@@ -54,14 +44,11 @@ public class AGAnimatedBackgroundView: UIView {
     }
 
     public func startAnimation(_ kindOfAnimation: AGBackgroundAnimationKind) {
-        self.kindOfAnimation = kindOfAnimation
-        animationInProcess = true
-        animationLayer?.animate(kindOfAnimation)
+        animationLayer.animate(kindOfAnimation)
     }
 
     public func stopAnimation() {
-        kindOfAnimation = .stop
-        animationLayer?.animate(.stop)
+        animationLayer.animate(.stop)
     }
 
     public func exchangeTo(backgroundColor: UIColor, symbolColor: UIColor) {
@@ -78,11 +65,12 @@ public class AGAnimatedBackgroundView: UIView {
         )
 
         let maskLayer = ExchangeMaskLayer.init(frame: bounds)
-        layer.addSublayer(newAnimationLayer)
         newAnimationLayer.mask = maskLayer
+        layer.addSublayer(newAnimationLayer)
 
         maskLayer.animate() { [weak self] in
             newAnimationLayer.mask = nil
+            self?.animationLayer.sublayers?.removeAll()
             self?.animationLayer.removeFromSuperlayer()
             self?.animationLayer = newAnimationLayer
         }
@@ -130,6 +118,7 @@ private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
     }
 
     func animate(complition: (()-> Void)? = nil) {
+        removeAllAnimations()
         animationComplition = complition
         let animation = CABasicAnimation(keyPath: "path")
         animation.delegate = self
