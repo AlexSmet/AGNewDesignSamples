@@ -89,8 +89,6 @@ class AGSymbolsRowLayer: CALayer {
     private var symbolLayers: [AGSymbolLayer] = []
     private var symbolSize: CGFloat!
 
-    private var onAnimationComplition: (()->Void)?
-
     init(frame: CGRect, symbolSize: CGFloat, symbolColor: UIColor, defaultAngles: [CGFloat]) {
         self.symbolSize = symbolSize
 

@@ -63,5 +63,87 @@ public class AGAnimatedBackgroundView: UIView {
         kindOfAnimation = .stop
         animationLayer?.animate(.stop)
     }
+
+    public func exchangeTo(backgroundColor: UIColor, symbolColor: UIColor) {
+        stopAnimation()
+
+        self.backgroundColor = backgroundColor
+        let newAnimationLayer = AGAnimatedBackgroundLayer(
+            frame: bounds,
+            backgroundColor: backgroundColor,
+            rowHeight: rowHeight,
+            symbolSize: symbolSize,
+            symbolColor: symbolColor,
+            symbolsAngles: symbolAngles
+        )
+
+        let maskLayer = ExchangeMaskLayer.init(frame: bounds)
+        layer.addSublayer(newAnimationLayer)
+        newAnimationLayer.mask = maskLayer
+
+        maskLayer.animate() { [weak self] in
+            newAnimationLayer.mask = nil
+            self?.animationLayer.removeFromSuperlayer()
+            self?.animationLayer = newAnimationLayer
+        }
+    }
+}
+
+private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
+
+    let rightSideRatio: CGFloat = 0.3
+    private var width: CGFloat { return frame.size.width }
+    private var height: CGFloat { return frame.size.height }
+
+    private var animationComplition: (()-> Void)?
+
+    init(frame: CGRect) {
+        super.init()
+        self.frame = frame
+        path = getBeginMask()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func getBeginMask() -> CGPath {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: -width*rightSideRatio*2))
+        path.addLine(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: width, y: -width*rightSideRatio))
+        path.addLine(to: CGPoint(x: width, y: -width*rightSideRatio*2))
+        path.addLine(to: CGPoint(x: 0, y: 0))
+
+        return path.cgPath
+    }
+
+    private func getFinalMask() -> CGPath {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: height))
+        path.addLine(to: CGPoint(x: width, y: height))
+        path.addLine(to: CGPoint(x: width, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: 0))
+
+        return path.cgPath
+    }
+
+    func animate(complition: (()-> Void)? = nil) {
+        animationComplition = complition
+        let animation = CABasicAnimation(keyPath: "path")
+        animation.delegate = self
+        animation.duration = 1
+        animation.toValue = getFinalMask()
+        add(animation, forKey: "exchangeLayers")
+    }
+
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        guard flag else {
+            return
+        }
+
+        animationComplition?()
+    }
 }
 

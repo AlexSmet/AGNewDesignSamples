@@ -20,6 +20,7 @@ class AnimatedBackgroundSample: UIViewController {
         animatedBackgroundPink.symbolColor = UIColor(red: 245/255, green: 106/255, blue: 159/255, alpha: 1)
         animatedBackgroundPink.startAnimation(.scrollUp)
 
+        animatedBackgroundGreen.backgroundColor = UIColor(red: 14/255, green: 176/255, blue: 160/255, alpha: 1)
         animatedBackgroundGreen.symbolColor = UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1)
         animatedBackgroundGreen.symbolAngles = [[90, 0], [179, 270]]
     }
@@ -42,6 +43,12 @@ class AnimatedBackgroundSample: UIViewController {
     }
 
     @IBAction func pushExchangeBackgound(_ sender: UIButton) {
-        animatedBackgroundGreen.exchangeTo(backgroundColor: UIColor.blue, symbolColor: UIColor.red)
+
+        if animatedBackgroundGreen.backgroundColor == UIColor.blue {
+            animatedBackgroundGreen.exchangeTo(backgroundColor: UIColor(red: 14/255, green: 176/255, blue: 160/255, alpha: 1), symbolColor: UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1))
+        } else {
+            animatedBackgroundGreen.exchangeTo(backgroundColor: UIColor.blue, symbolColor: UIColor.red)
+        }
+
     }
 }
