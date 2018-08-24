@@ -51,7 +51,7 @@ public class AGAnimatedBackgroundView: UIView {
         animationLayer.animate(.stop)
     }
 
-    public func exchangeTo(backgroundColor: UIColor, symbolColor: UIColor, complition: (()->Void)? = nil) {
+    public func changeColorsWithAnimation(backgroundColor: UIColor, symbolColor: UIColor, complition: (()->Void)? = nil) {
         stopAnimation()
 
         self.backgroundColor = backgroundColor

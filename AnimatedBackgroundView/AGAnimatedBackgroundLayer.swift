@@ -22,7 +22,7 @@ public enum AGBackgroundAnimationKind {
 }
 
 class AGSymbolPath {
-    static func getPath(withScale scale: CGFloat)-> UIBezierPath {
+    static func getPath(withScale scale: CGFloat)-> CGPath {
         let path = UIBezierPath()
 
         path.move(to: CGPoint(x: (4+31)*scale, y: 334*scale))
@@ -34,19 +34,19 @@ class AGSymbolPath {
         path.addLine(to: CGPoint(x: (92+31)*scale, y: 6*scale))
         path.addLine(to: CGPoint(x: (4+31)*scale, y: 334*scale))
 
-        return path
+        return path.cgPath
     }
 }
 
 class AGSymbolLayer: CAShapeLayer {
-    let symbolDefaultSize: CGFloat = 340
     var symbolColor: UIColor!
     var defaultAngle: CGFloat!
 
-    init(angle: CGFloat, symbolColor: UIColor) {
+    init(withPath: CGPath, angle: CGFloat, symbolColor: UIColor) {
         defaultAngle = angle
         self.symbolColor = symbolColor
         super.init()
+        path = withPath
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -62,7 +62,6 @@ class AGSymbolLayer: CAShapeLayer {
     }
 
     func draw(withAngle: CGFloat? = nil) {
-        path = getLetterPath().cgPath
         strokeColor = symbolColor.cgColor
         fillColor = symbolColor.cgColor
         lineWidth = 1
@@ -76,16 +75,11 @@ class AGSymbolLayer: CAShapeLayer {
     func rotate(angle: CGFloat) {
         transform = CATransform3DMakeRotation(angle.toRadians(), 0, 0, 1)
     }
-
-    func getLetterPath()-> UIBezierPath {
-        let scale: CGFloat = min(frame.width/symbolDefaultSize, frame.height/symbolDefaultSize)
-        let path = AGSymbolPath.getPath(withScale: scale)
-        return path
-    }
 }
 
 
 class AGSymbolsRowLayer: CALayer {
+    private let symbolDefaultSize: CGFloat = 340
     private var symbolLayers: [AGSymbolLayer] = []
     private var symbolSize: CGFloat!
 
@@ -102,9 +96,12 @@ class AGSymbolsRowLayer: CALayer {
         let xMargin = (frame.width - (CGFloat(symbolsInRow)*2 - 1)*symbolSize)/2
         let yMargin = (frame.height - symbolSize) / 2
 
+        let symbolScale: CGFloat = symbolSize/symbolDefaultSize
+        let symbolPath = AGSymbolPath.getPath(withScale: symbolScale)
+
         for index in 0..<symbolsInRow {
             let angleIndex =  index % defaultAngles.count
-            let agSymbol = AGSymbolLayer(angle: defaultAngles[angleIndex], symbolColor: symbolColor)
+            let agSymbol = AGSymbolLayer(withPath: symbolPath, angle: defaultAngles[angleIndex], symbolColor: symbolColor)
             agSymbol.frame = CGRect(x: xMargin + (symbolSize*2) * CGFloat(index), y: yMargin + agSymbol.bounds.height/2, width: symbolSize, height: symbolSize)
             symbolLayers.append(agSymbol)
             addSublayer(agSymbol)
