@@ -22,6 +22,7 @@ public enum AGBackgroundAnimationKind {
 }
 
 class AGSymbolPath {
+    static let symbolDefaultSize: CGFloat = 340
     static func getPath(withScale scale: CGFloat)-> CGPath {
         let path = UIBezierPath()
 
@@ -79,25 +80,17 @@ class AGSymbolLayer: CAShapeLayer {
 
 
 class AGSymbolsRowLayer: CALayer {
-    private let symbolDefaultSize: CGFloat = 340
     private var symbolLayers: [AGSymbolLayer] = []
     private var symbolSize: CGFloat!
 
-    init(frame: CGRect, symbolSize: CGFloat, symbolColor: UIColor, defaultAngles: [CGFloat]) {
-        self.symbolSize = symbolSize
-
+    init(frame: CGRect, symbolsInRow: Int, symbolPath: CGPath, symbolSize: CGFloat, symbolColor: UIColor, defaultAngles: [CGFloat]) {
         super.init()
 
         anchorPoint = CGPoint(x: 0, y: 0)
         self.frame = frame
 
-        let partsInRow = (frame.width/symbolSize).rounded(.down)
-        let symbolsInRow = Int((partsInRow/2).rounded())
         let xMargin = (frame.width - (CGFloat(symbolsInRow)*2 - 1)*symbolSize)/2
         let yMargin = (frame.height - symbolSize) / 2
-
-        let symbolScale: CGFloat = symbolSize/symbolDefaultSize
-        let symbolPath = AGSymbolPath.getPath(withScale: symbolScale)
 
         for index in 0..<symbolsInRow {
             let angleIndex =  index % defaultAngles.count
@@ -135,7 +128,6 @@ class AGSymbolsRowLayer: CALayer {
         symbolLayers.forEach { $0.rotate(angle: $0.defaultAngle) }
     }
 }
-
 
 class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
 
@@ -187,10 +179,21 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
     }
 
     private func draw() {
+        let partsInRow = (frame.width/symbolSize).rounded(.down)
+        let symbolsInRow = Int((partsInRow/2).rounded())
+        let symbolScale: CGFloat = symbolSize/AGSymbolPath.symbolDefaultSize
+        let symbolPath = AGSymbolPath.getPath(withScale: symbolScale)
+
         // (-1, +1) добавляем две дополнительных строки символов для анимации
         for i in -1...(Int(frame.height / rowHeight) + 1) {
             let anglesIndex = abs(i % symbolsAngles.count)
-            let rotationRow = AGSymbolsRowLayer(frame: CGRect(x: 0, y: CGFloat(i)*rowHeight, width: frame.width, height: rowHeight), symbolSize: symbolSize, symbolColor: symbolColor, defaultAngles: symbolsAngles[anglesIndex])
+            let rotationRow = AGSymbolsRowLayer(
+                frame: CGRect(x: 0, y: CGFloat(i)*rowHeight, width: frame.width, height: rowHeight),
+                symbolsInRow: symbolsInRow,
+                symbolPath: symbolPath,
+                symbolSize: symbolSize,
+                symbolColor: symbolColor,
+                defaultAngles: symbolsAngles[anglesIndex])
             rotationRow.draw()
             addSublayer(rotationRow)
         }
