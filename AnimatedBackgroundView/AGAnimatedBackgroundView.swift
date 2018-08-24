@@ -51,7 +51,7 @@ public class AGAnimatedBackgroundView: UIView {
         animationLayer.animate(.stop)
     }
 
-    public func changeColorsWithAnimation(backgroundColor: UIColor, symbolColor: UIColor, complition: (()->Void)? = nil) {
+    public func changeColorsWithAnimation(backgroundColor: UIColor, symbolColor: UIColor, completion: (()->Void)? = nil) {
         stopAnimation()
 
         self.backgroundColor = backgroundColor
@@ -72,18 +72,17 @@ public class AGAnimatedBackgroundView: UIView {
             newAnimationLayer.mask = nil
             self?.animationLayer.removeFromSuperlayer()
             self?.animationLayer = newAnimationLayer
-            complition?()
+            completion?()
         }
     }
 }
 
 private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
-
     let rightSideRatio: CGFloat = 0.3
     private var width: CGFloat { return frame.size.width }
     private var height: CGFloat { return frame.size.height }
 
-    private var animationComplition: (()-> Void)?
+    private var animationCompletion: (()-> Void)?
 
     init(frame: CGRect) {
         super.init()
@@ -117,8 +116,8 @@ private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
         return path.cgPath
     }
 
-    func animate(complition: (()-> Void)? = nil) {
-        animationComplition = complition
+    func animate(completion: (()-> Void)? = nil) {
+        animationCompletion = completion
 
         let finalMask = getFinalMask()
         let animation = CABasicAnimation(keyPath: "path")
@@ -135,7 +134,7 @@ private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
         guard finished else {
             return
         }
-        animationComplition?()
+        animationCompletion?()
     }
 }
 

@@ -44,10 +44,10 @@ public class GradientProgressBar: UIView, CAAnimationDelegate {
     /// - Parameters:
     ///   - progress: значение заполненности индикатора от 0 до 1
     ///   - withDuration: длительность анимации
-    ///   - complition: необязательный параметр, функция которая будет вызвана после окончания анимации
-    public func setProgress(_ progress: CGFloat, withDuration animationDuration: Double, complition: ((Bool) -> Void)? = nil) {
+    ///   - completion: необязательный параметр, функция которая будет вызвана после окончания анимации
+    public func setProgress(_ progress: CGFloat, withDuration animationDuration: Double, completion: ((Bool) -> Void)? = nil) {
         if animationDuration > 0 {
-            onAnimationComplition = complition
+            onAnimationCompletion = completion
             let animation = CABasicAnimation(keyPath: "progress")
             animation.fromValue = CGFloat(0.0)
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
@@ -58,7 +58,7 @@ public class GradientProgressBar: UIView, CAAnimationDelegate {
             gradientLayer.progress = progress
         } else {
             gradientLayer.progress = progress
-            complition?(true)
+            completion?(true)
         }
 
     }
@@ -71,13 +71,13 @@ public class GradientProgressBar: UIView, CAAnimationDelegate {
         return self.layer as! GradientLayer
     }
 
-    private var onAnimationComplition: ((Bool) -> Void)?
+    private var onAnimationCompletion: ((Bool) -> Void)?
 
     public func animationDidStop(_ animation: CAAnimation, finished: Bool) {
         guard finished else {
             return
         }
-        onAnimationComplition?(finished)
+        onAnimationCompletion?(finished)
     }
 
     override public var frame: CGRect {
