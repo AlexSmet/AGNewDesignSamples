@@ -211,7 +211,7 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         scrollingAnimation.fromValue = 0
         scrollingAnimation.toValue = toValue
         scrollingAnimation.repeatCount = 1
-        scrollingAnimation.delegate = self
+        // scrollingAnimation.delegate = self
 
         return scrollingAnimation
     }
@@ -229,17 +229,21 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
             currentAnimation = scrollDownAnimation
         case .rotateUp:
             symbolsRowLayers?.forEach({ $0.rotateUp() })
+            currentAnimation?.delegate = nil
             currentAnimation = nil
         case .rotateDown:
             symbolsRowLayers?.forEach({ $0.rotateDown() })
+            currentAnimation?.delegate = nil
             currentAnimation = nil
         case .stop:
             symbolsRowLayers?.forEach({ $0.rotateToDefaulPosition() })
+            currentAnimation?.delegate = nil
             currentAnimation = nil
         }
 
         // стартуем анимацию
         if let currentAnimation = currentAnimation {
+            currentAnimation.delegate = self
             add(currentAnimation, forKey: "scrolling")
         }
     }

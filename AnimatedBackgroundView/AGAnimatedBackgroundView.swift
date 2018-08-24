@@ -70,7 +70,6 @@ public class AGAnimatedBackgroundView: UIView {
 
         maskLayer.animate() { [weak self] in
             newAnimationLayer.mask = nil
-            self?.animationLayer.sublayers?.removeAll()
             self?.animationLayer.removeFromSuperlayer()
             self?.animationLayer = newAnimationLayer
         }
@@ -131,7 +130,6 @@ private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
         guard flag else {
             return
         }
-
         animationComplition?()
     }
 }
