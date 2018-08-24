@@ -74,6 +74,9 @@ public class GradientProgressBar: UIView, CAAnimationDelegate {
     private var onAnimationComplition: ((Bool) -> Void)?
 
     public func animationDidStop(_ animation: CAAnimation, finished: Bool) {
+        guard finished else {
+            return
+        }
         onAnimationComplition?(finished)
     }
 
