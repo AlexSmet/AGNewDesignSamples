@@ -51,7 +51,7 @@ public class AGAnimatedBackgroundView: UIView {
         animationLayer.animate(.stop)
     }
 
-    public func exchangeTo(backgroundColor: UIColor, symbolColor: UIColor) {
+    public func exchangeTo(backgroundColor: UIColor, symbolColor: UIColor, complition: (()->Void)? = nil) {
         stopAnimation()
 
         self.backgroundColor = backgroundColor
@@ -64,7 +64,7 @@ public class AGAnimatedBackgroundView: UIView {
             symbolsAngles: symbolAngles
         )
 
-        let maskLayer = ExchangeMaskLayer.init(frame: bounds)
+        let maskLayer = ExchangeMaskLayer(frame: bounds)
         newAnimationLayer.mask = maskLayer
         layer.addSublayer(newAnimationLayer)
 
@@ -72,6 +72,7 @@ public class AGAnimatedBackgroundView: UIView {
             newAnimationLayer.mask = nil
             self?.animationLayer.removeFromSuperlayer()
             self?.animationLayer = newAnimationLayer
+            complition?()
         }
     }
 }
@@ -117,17 +118,21 @@ private class ExchangeMaskLayer: CAShapeLayer, CAAnimationDelegate {
     }
 
     func animate(complition: (()-> Void)? = nil) {
-        removeAllAnimations()
         animationComplition = complition
+
+        let finalMask = getFinalMask()
         let animation = CABasicAnimation(keyPath: "path")
         animation.delegate = self
         animation.duration = 1
-        animation.toValue = getFinalMask()
+        animation.fromValue = path
+        animation.toValue = finalMask
+
+        path = finalMask
         add(animation, forKey: "exchangeLayers")
     }
 
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        guard flag else {
+    func animationDidStop(_ anim: CAAnimation, finished: Bool) {
+        guard finished else {
             return
         }
         animationComplition?()

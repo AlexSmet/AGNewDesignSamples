@@ -211,7 +211,6 @@ class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
         scrollingAnimation.fromValue = 0
         scrollingAnimation.toValue = toValue
         scrollingAnimation.repeatCount = 1
-        // scrollingAnimation.delegate = self
 
         return scrollingAnimation
     }

@@ -294,6 +294,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKd-Pz-i30">
                                         <rect key="frame" x="0.0" y="90" width="200" height="30"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Ybp-Cy-dr1"/>
                                             <constraint firstAttribute="height" constant="30" id="pb8-pq-UOe"/>
@@ -326,6 +327,7 @@
                     <connections>
                         <outlet property="animatedBackgroundGreen" destination="dsm-Rq-aXx" id="4PP-tQ-Guc"/>
                         <outlet property="animatedBackgroundPink" destination="QEr-HP-ZaU" id="eKo-RC-t5C"/>
+                        <outlet property="exchangeBackgroundButton" destination="jKd-Pz-i30" id="Qll-au-VUJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XCG-cu-NzC" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -14,6 +14,8 @@ class AnimatedBackgroundSample: UIViewController {
 
     @IBOutlet weak var animatedBackgroundGreen: AGAnimatedBackgroundView!
 
+    @IBOutlet weak var exchangeBackgroundButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,12 +45,14 @@ class AnimatedBackgroundSample: UIViewController {
     }
 
     @IBAction func pushExchangeBackgound(_ sender: UIButton) {
-
         if animatedBackgroundGreen.backgroundColor == UIColor.blue {
-            animatedBackgroundGreen.exchangeTo(backgroundColor: UIColor(red: 14/255, green: 176/255, blue: 160/255, alpha: 1), symbolColor: UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1))
+            animatedBackgroundGreen.changeBackgroundWithAnimation(backgroundColor: UIColor(red: 14/255, green: 176/255, blue: 160/255, alpha: 1), symbolColor: UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1)) { [weak self] in
+                self?.exchangeBackgroundButton.backgroundColor = .blue
+            }
         } else {
-            animatedBackgroundGreen.exchangeTo(backgroundColor: UIColor.blue, symbolColor: UIColor.red)
+            animatedBackgroundGreen.changeBackgroundWithAnimation(backgroundColor: UIColor.blue, symbolColor: UIColor.red) { [weak self] in
+                self?.exchangeBackgroundButton.backgroundColor = .red
+            }
         }
-
     }
 }
