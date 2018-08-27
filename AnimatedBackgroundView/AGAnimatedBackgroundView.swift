@@ -11,8 +11,8 @@ public class AGAnimatedBackgroundView: UIView {
     private var animationLayer: AGAnimatedBackgroundLayer!
 
     public var symbolColor: UIColor? { didSet { animationLayer.symbolColor = symbolColor }}
-    private var symbolSize: CGFloat = 18 { didSet { animationLayer.symbolSize = symbolSize }}
-    private var rowHeight: CGFloat = 40 { didSet { animationLayer.rowHeight = rowHeight }}
+    public var symbolSize: CGFloat = 18 { didSet { animationLayer.symbolSize = symbolSize }}
+    public var rowHeight: CGFloat = 40 { didSet { animationLayer.rowHeight = rowHeight }}
     public var symbolAngles: [[CGFloat]] = [[0]] { didSet { animationLayer.symbolsAngles = symbolAngles }}
 
     private func initAnimationLayer() {

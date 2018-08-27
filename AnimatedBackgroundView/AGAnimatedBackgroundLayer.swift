@@ -132,7 +132,14 @@ class AGSymbolsRowLayer: CALayer {
 class AGAnimatedBackgroundLayer: CAScrollLayer, CAAnimationDelegate {
 
     override var frame: CGRect { didSet { redraw() } }
-    var rowHeight: CGFloat! { didSet { redraw() } }
+    var rowHeight: CGFloat! {
+        didSet {
+            scrollUpAnimation = createScrollAnimation(toValue: -rowHeight, withCycleDuration: 1)
+            scrollDownAnimation = createScrollAnimation(toValue: rowHeight, withCycleDuration: 1)
+
+            redraw()
+        }
+    }
     var symbolSize: CGFloat! { didSet { redraw() } }
     var symbolColor: UIColor! { didSet { redraw() } }
     var symbolsAngles: [[CGFloat]]! { didSet { redraw() } }

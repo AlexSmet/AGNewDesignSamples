@@ -25,6 +25,8 @@ class AnimatedBackgroundSample: UIViewController {
         animatedBackgroundGreen.backgroundColor = UIColor(red: 14/255, green: 176/255, blue: 160/255, alpha: 1)
         animatedBackgroundGreen.symbolColor = UIColor(red: 34/255, green: 119/255, blue: 99/255, alpha: 1)
         animatedBackgroundGreen.symbolAngles = [[90, 0], [179, 270]]
+        animatedBackgroundGreen.rowHeight = 60
+        animatedBackgroundGreen.symbolSize = 30
     }
 
     override func viewDidLayoutSubviews() {
